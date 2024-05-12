@@ -11,11 +11,27 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm  navbar-light bg-white ">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Интернет-магазин на C# </a>
-       <form class="form-inline my-2 my-lg-0"  action="@Url.Action("Index","Search")" method="get">
-           <input class="form-control" type="search" name="query" placeholder="автор или название" />
-           <button class="btn btn-outline-success my-2 my-sm-0 m-2" type="submit">Искать</button>
-        </form>
+            <a class="navbar-brand m-2" asp-area="" asp-controller="Home" asp-action="Index">Интернет-магазин на C# </a>
+            <form class="form-inline my-2 my-lg-0 "  action="@Url.Action("Index","Search")" method="get">
+                 <input class="form-control-sm " type="search" name="query" placeholder="автор или название" />
+                 <button class="btn btn-outline-success my-2 my-sm-0 m-2" type="submit">Искать</button>
+              </form>
+                <span class="navbar-text ms-auto me-2">
+                @{
+                    Cart cart;
+                    if (!Context.Session.tryGetCart(out cart))
+                        cart = new Cart();
+                    if (cart.Item.Count==0)
+                    {
+                        @:Корзина пуста
+                    }
+                    else
+                    {
+                        @:Товаров @cart.Item.Count, на сумму @cart.Amount руб.
+                    }
+
+                }
+            </span>
            
         </nav>
     </header>
