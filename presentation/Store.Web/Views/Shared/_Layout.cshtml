@@ -18,17 +18,17 @@
               </form>
                 <span class="navbar-text ms-auto me-2">
                 @{
-                    Cart cart;
-                    if (!Context.Session.tryGetCart(out cart))
-                        cart = new Cart();
-                    if (cart.Item.Count==0)
+                    
+                    if (Context.Session.tryGetCart(out Cart cart) && cart.TotalCount>0)
+                    {
+                        <a href="">Товаров @cart.TotalCount на сумму @cart.TotalPrice</a>
+                    }
+                   
+                    else
                     {
                         @:Корзина пуста
                     }
-                    else
-                    {
-                        @:Товаров @cart.Item.Count, на сумму @cart.Amount руб.
-                    }
+                   
 
                 }
             </span>

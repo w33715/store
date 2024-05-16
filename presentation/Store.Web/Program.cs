@@ -14,6 +14,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // кука-техническая информация, не личная
 });
 builder.Services.AddSingleton<IBookRepository, BookRepository>();
+builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<BookService, BookService>();
 var app = builder.Build();
 
