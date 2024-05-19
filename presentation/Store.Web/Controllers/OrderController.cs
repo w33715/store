@@ -49,7 +49,7 @@ namespace Store.Web.Controllers
                 TotalPrice = order.TotalPrice,
             };
         }
-        public IActionResult AddItem(int bookId, int count)
+        public IActionResult AddItem(int bookId, int count = 1)
         {
             (Order order, Cart cart) = GetOrCreateOrderAndCart();
             var book = bookRepository.GetById(bookId);
@@ -57,7 +57,7 @@ namespace Store.Web.Controllers
 
             SaveOrderAndCart(order, cart);
 
-            return RedirectToAction("Index", "Book", new { bookId });
+            return RedirectToAction("Index", "Book", new { id = bookId });
         }
         [HttpPost]
         public IActionResult UpdateItem(int bookId, int count)
@@ -69,13 +69,7 @@ namespace Store.Web.Controllers
             return RedirectToAction("Index", "Book", new { bookId });
         }
 
-        private void SaveOrderAndCart(Order order, Cart cart)
-        {
-            orderRepository.Update(order);
-            cart.TotalCount = order.TotalCount;
-            cart.TotalPrice = order.TotalPrice;
-            HttpContext.Session.Set(cart);
-        }
+
 
         private (Order Order, Cart cart) GetOrCreateOrderAndCart()
         {
@@ -100,7 +94,13 @@ namespace Store.Web.Controllers
 
         //    return RedirectToAction("Index", "Book", new { id });
         //}
-
+        private void SaveOrderAndCart(Order order, Cart cart)
+        {
+            orderRepository.Update(order);
+            cart.TotalCount = order.TotalCount;
+            cart.TotalPrice = order.TotalPrice;
+            HttpContext.Session.Set(cart);
+        }
         public IActionResult RemoveItem(int id)
         {
             (Order order, Cart cart) = GetOrCreateOrderAndCart();
